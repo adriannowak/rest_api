@@ -15,11 +15,15 @@ public class PreFilter implements ContainerResponseFilter {
  
     @Override
     public void filter( ContainerRequestContext requestCtx, ContainerResponseContext responseCtx ) throws IOException {
- 
-        responseCtx.getHeaders().add( "Access-Control-Allow-Origin", "*" );    // You may further limit certain client IPs with Access-Control-Allow-Origin instead of '*'
-        responseCtx.getHeaders().add( "Access-Control-Allow-Credentials", "true" );
-        responseCtx.getHeaders().add( "Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
-        responseCtx.getHeaders().add( "Access-Control-Allow-Headers", "origin, content-type, accept, authorization, x-auth-token" );
+    	addIfNotExists( "Access-Control-Allow-Origin", "*" ,responseCtx);    // You may further limit certain client IPs with Access-Control-Allow-Origin instead of '*'
+    	addIfNotExists( "Access-Control-Allow-Credentials", "true",responseCtx);
+    	addIfNotExists( "Access-Control-Allow-Methods", "GET, POST, DELETE, PUT",responseCtx);
+    	addIfNotExists( "Access-Control-Allow-Headers", "origin, content-type, accept, authorization, x-auth-token",responseCtx);
     }
 
+    private void addIfNotExists(String key, String value,ContainerResponseContext response) {
+    	if(!response.getHeaders().containsKey(key)) {
+    		response.getHeaders().add(key, value);
+    	}
+    }
 }

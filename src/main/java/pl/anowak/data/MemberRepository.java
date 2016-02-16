@@ -35,8 +35,8 @@ public class MemberRepository {
     @Inject
     private EntityManager em;
 
-    public Member findById(Long id) {
-        return em.find(Member.class, id);
+    public User findById(Long id) {
+        return em.find(User.class, id);
     }
     
     public Boolean userExistsByExternalClientId(String externalClientId) {

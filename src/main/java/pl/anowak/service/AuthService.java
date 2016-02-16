@@ -26,6 +26,9 @@ public class AuthService {
 	@Inject 
 	MemberRegistration mrr;
 	
+	@Inject 
+	ActivityService activity;
+	
 	public Boolean isAuthorized(AuthAccessElement accessElement) {
 		return true;
 	}
@@ -57,15 +60,13 @@ public class AuthService {
 
 		}
 		if(api != null) {
-			return Optional.of(authToken.access(api));
+			AuthAccessElement auth = authToken.access(api);
+			activity.userLogged(api, "NIE PODANO", authElement.getAccessToken(), auth.getAuthToken());
+
+			return Optional.of(auth);
 
 		}
 		
 		return Optional.empty();
-
-//		AuthAccessElement auth = new AuthAccessElement();
-//		auth.setAuthToken(UUID.randomUUID().toString());
-//		fb.test(authElement);
-//		return Optional.ofNullable(auth);
 	}
 }

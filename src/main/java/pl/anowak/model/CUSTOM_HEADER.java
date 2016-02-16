@@ -1,5 +1,7 @@
 package pl.anowak.model;
 
+import javax.ws.rs.container.ContainerRequestContext;
+
 public enum CUSTOM_HEADER {
 	AUTH_TOKEN("authorization");
 	
@@ -8,14 +10,9 @@ public enum CUSTOM_HEADER {
 	CUSTOM_HEADER(String header) {
 		this.header = header;
 	}
-
-	public String getHeader() {
-		return header;
-	}
-
-	public void setHeader(String header) {
-		this.header = header;
-	}
 	
+	public String getHeader(ContainerRequestContext ctx) {
+		return ctx.getHeaderString(this.header);
+	}
 	
 }
